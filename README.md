@@ -1,26 +1,18 @@
 # 🚀 Autonomous Finance Analyst
 
-An Autonomous Finance Analyst built using **LangGraph**, **Agent Skills**, **Gemini**, and **yFinance** that performs live stock analysis, financial health evaluation, technical analysis, news sentiment analysis, risk assessment, investment recommendations, and automated PDF report generation.
+An Autonomous Finance Analyst built using LangGraph, Gemini, Agent Skills, and yFinance that performs live financial analysis, sentiment analysis, risk assessment, investment recommendations, and automated PDF report generation.
 
 ---
 
-## 🎯 Project Overview
+# 🎯 Overview
 
-Traditional LLMs can provide investment opinions but cannot access live market data, evaluate current financial metrics, or perform structured financial analysis.
+This project simulates a professional financial analyst by autonomously gathering market information, evaluating company fundamentals, analyzing sentiment and risk, and generating investment recommendations.
 
-This project combines:
-
-* Autonomous Agent Workflows
-* Agent Skills Architecture
-* Live Financial Data
-* Financial Reasoning
-* Automated Report Generation
-
-to create an AI-powered finance analyst capable of producing professional investment reports.
+Unlike traditional LLM applications, the system dynamically decides what information it needs before generating an answer.
 
 ---
 
-## 🏗️ Architecture
+# 🧠 Architecture
 
 ```text
 User Query
@@ -39,7 +31,22 @@ Finance Supervisor Agent
      │
      ▼
 
+Reflection Agent
+
+     │
+     ▼
+
+Choose Next Skill
+
+     │
+     ▼
+
 Skill Executor
+
+     │
+     ▼
+
+Agent Skills
 
      ├── Stock Price Skill
      ├── Market Metrics Skill
@@ -47,8 +54,7 @@ Skill Executor
      ├── Technical Analysis Skill
      ├── News Fetch Skill
      ├── News Sentiment Skill
-     ├── Risk Analysis Skill
-     └── Investment Summary Skill
+     └── Risk Analysis Skill
 
      │
      ▼
@@ -68,20 +74,20 @@ PDF Report Generator
      │
      ▼
 
-Investment Report.pdf
+Investment_Report.pdf
 ```
 
 ---
 
-## 🤖 Agent Design
+# 🤖 Agents
 
-### 1. Router Agent
+## Router Agent
 
-Uses Gemini + Pydantic Structured Output to:
+Uses Gemini + Pydantic to:
 
-* Understand user intent
-* Extract stock ticker symbols
-* Route requests
+* Detect intent
+* Extract ticker symbols
+* Route user requests
 
 Example:
 
@@ -94,40 +100,44 @@ Example:
 
 ---
 
-### 2. Finance Supervisor Agent
+## Finance Supervisor Agent
 
-The core autonomous agent responsible for:
+The central autonomous agent.
 
-* Planning analysis steps
-* Selecting required skills
-* Gathering missing information
-* Executing financial analysis
-* Generating recommendations
+Responsibilities:
 
-The supervisor follows an Observe → Think → Act loop.
-
----
-
-### 3. Report Agent
-
-Generates a professional equity research report containing:
-
-* Executive Summary
-* Market Snapshot
-* Financial Health Analysis
-* Technical Analysis
-* News & Sentiment
-* Risk Assessment
-* Investment Recommendation
-* Confidence Score
+* Determine missing information
+* Select relevant skills
+* Execute skills dynamically
+* Decide when enough information has been gathered
+* Generate recommendations
 
 ---
 
-## 🧩 Agent Skills
+## Reflection Agent
+
+Implements the Observe → Think → Act loop.
+
+Example:
+
+```json
+{
+  "enough_information": false,
+  "next_skill": "financial_health_skill"
+}
+```
+
+---
+
+## Report Agent
+
+Generates professional equity research reports.
+
+---
+
+# 🧩 Agent Skills
 
 ### 📈 Stock Price Skill
-
-Fetches:
 
 * Current Price
 * Previous Close
@@ -140,62 +150,49 @@ Source:
 
 ### 📊 Market Metrics Skill
 
-Fetches:
-
 * Market Cap
 * P/E Ratio
 * Beta
 * Sector
 
-Source:
-
-* yFinance
-
 ---
 
 ### 💰 Financial Health Skill
-
-Evaluates:
 
 * Revenue
 * Net Income
 * Profit Margin
 * Return on Equity
-* Debt-to-Equity Ratio
+* Debt-to-Equity
 
 ---
 
 ### 📉 Technical Analysis Skill
 
-Calculates:
-
 * SMA50
 * SMA200
-* Trend Analysis
+* Trend Detection
 
 ---
 
 ### 📰 News Fetch Skill
 
-Retrieves:
-
-* Latest company news
-* Market developments
+* Company News
+* Market Updates
 
 ---
 
 ### 😊 News Sentiment Skill
 
-Performs:
+* Positive
+* Neutral
+* Negative
 
-* Sentiment Analysis
-* Bullish / Neutral / Bearish Classification
+Sentiment Classification
 
 ---
 
 ### ⚠️ Risk Analysis Skill
-
-Evaluates:
 
 * Volatility
 * Beta Risk
@@ -203,50 +200,101 @@ Evaluates:
 
 ---
 
-### 📝 Investment Summary Skill
+# 🔄 Autonomous Workflow
 
-Creates:
-
-* Investment Summary
-* Key Insights
-* Recommendation Inputs
-
----
-
-## 🔄 Autonomous Workflow
-
-For a query such as:
+Example Query:
 
 ```text
 Should I invest $10,000 in NVDA for the next 5 years?
 ```
 
-The system:
+Execution:
 
-1. Detects intent and ticker
-2. Retrieves live market data
-3. Evaluates company fundamentals
-4. Performs technical analysis
-5. Analyzes market sentiment
-6. Assesses investment risks
-7. Generates recommendation
-8. Creates a professional report
-9. Exports report as PDF
+```text
+Router
+
+↓
+
+Reflection
+
+↓
+
+Stock Price Skill
+
+↓
+
+Reflection
+
+↓
+
+Financial Health Skill
+
+↓
+
+Reflection
+
+↓
+
+News Sentiment Skill
+
+↓
+
+Reflection
+
+↓
+
+Risk Analysis Skill
+
+↓
+
+Reflection
+
+↓
+
+Enough Information
+
+↓
+
+Recommendation
+
+↓
+
+PDF Report
+```
 
 ---
 
-## 🛠️ Tech Stack
+# 📄 Output
 
-### AI & Agent Frameworks
+The system generates:
+
+* Investment Recommendation
+* Confidence Score
+* Explainable Analysis
+* Professional PDF Report
+
+Example:
+
+```text
+Recommendation: BUY
+
+Confidence: 84%
+```
+
+---
+
+# 🛠️ Tech Stack
+
+### AI
 
 * LangGraph
 * LangChain
-* Google Gemini 2.5 Flash
+* Gemini 2.5 Flash
 
 ### Data Sources
 
 * yFinance
-* News Search APIs
+* News APIs
 
 ### Backend
 
@@ -259,24 +307,22 @@ The system:
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
 ```text
 AI_FINANCE_ANALYST
 
 agents/
-│
 ├── router_agent.py
 ├── finance_supervisor_agent.py
+├── reflection_agent.py
 ├── report_agent.py
 
 graph/
-│
 ├── workflow.py
 ├── skill_executor.py
 
 skills/
-│
 ├── stock_price_skill.py
 ├── market_metrics_skill.py
 ├── financial_health_skill.py
@@ -288,18 +334,10 @@ skills/
 ├── pdf_report_skill.py
 
 schemas/
-│
 ├── router_schema.py
-├── sentiment_schema.py
-
-tools/
-│
-├── yfinance_tool.py
-├── news_tool.py
-├── technical_tool.py
+├── reflection_schema.py
 
 state/
-│
 ├── finance_state.py
 
 main.py
@@ -308,75 +346,18 @@ llm.py
 
 ---
 
-## 💡 Example Queries
-
-### Stock Price
-
-```text
-What is the current stock price of AAPL?
-```
-
-### News Analysis
-
-```text
-What are the latest news updates about Tesla?
-```
-
-### Investment Recommendation
-
-```text
-Should I invest $10,000 in NVDA for the next 5 years?
-```
-
-### Full Analysis
-
-```text
-Analyze AMD and tell me whether it is a good investment.
-```
-
----
-
-## 📄 Output
-
-The system generates:
-
-### Recommendation
-
-```text
-BUY
-HOLD
-SELL
-```
-
-### Confidence Score
-
-```text
-84%
-```
-
-### Professional PDF Report
-
-```text
-reports/NVDA_Investment_Report.pdf
-```
-
----
-
-## 🔮 Future Enhancements
+# 🔮 Future Enhancements
 
 * Multi-Stock Comparison
 * Portfolio Construction
 * Interactive Dashboard
+* Real-Time Market Streaming
 * Advanced Technical Indicators
-* Real-Time Streaming Market Data
-* Portfolio Risk Optimization
 
 ---
 
-## 👨‍💻 Author
+# 👨‍💻 Author
 
-**Jayant Singh Khanna**
+Jayant Singh Khanna
 
-Computer Engineering Student | AI & ML Enthusiast | Agentic AI Developer
-
-Built as an exploration into Autonomous AI Agents, Financial Analysis, and Agent Skills Architecture.
+Computer Engineering Student | Machine Learning Intern | Agentic AI Developer

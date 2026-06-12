@@ -3,7 +3,9 @@ from graph.workflow import graph
 
 def main():
 
-    print("\n=== Agentic Finance Analyst ===\n")
+    print(
+        "\n=== Autonomous Finance Analyst ===\n"
+    )
 
     while True:
 
@@ -22,17 +24,83 @@ def main():
                 }
             )
 
-            print("\n========== STATE ==========\n")
-
-            for key, value in result.items():
-
-                print(f"\n{key.upper()}:")
-
-                print(value)
+            print(
+                "\n===================================="
+            )
 
             print(
-                "\n===========================\n"
+                f"\nTicker: "
+                f"{result.get('ticker', 'N/A')}"
             )
+
+            print(
+                f"\nIntent: "
+                f"{result.get('intent', 'N/A')}"
+            )
+
+            recommendation = result.get(
+                "recommendation",
+                {}
+            )
+
+            if recommendation:
+
+                print(
+                    f"\nRecommendation: "
+                    f"{recommendation.get('recommendation')}"
+                )
+
+                print(
+                    f"Confidence: "
+                    f"{recommendation.get('confidence')}%"
+                )
+
+            print(
+                f"\nExecuted Skills:"
+            )
+
+            print(
+                result.get(
+                    "executed_skills",
+                    []
+                )
+            )
+
+            print(
+                f"\nPDF Report:"
+            )
+
+            print(
+                result.get(
+                    "pdf_path",
+                    "Not Generated"
+                )
+            )
+
+            print(
+                "\n===================================="
+            )
+
+            view_report = input(
+                "\nShow full report? (y/n): "
+            )
+
+            if view_report.lower() == "y":
+
+                print(
+                    "\n========== REPORT ==========\n"
+                )
+
+                print(
+                    result.get(
+                        "final_report",
+                        "No report generated."
+                    )
+                )
+
+                print(
+                    "\n============================\n"
+                )
 
         except Exception as e:
 

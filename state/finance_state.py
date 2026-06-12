@@ -6,13 +6,31 @@ class FinanceState(
     total=False
 ):
 
+    # ======================
+    # USER INPUT
+    # ======================
+
     query: str
 
     intent: str
 
     ticker: str
 
+    # ======================
+    # AUTONOMY
+    # ======================
+
     executed_skills: list
+
+    next_skill: str
+
+    enough_information: bool
+
+    reflection_reasoning: str
+
+    # ======================
+    # SKILL OUTPUTS
+    # ======================
 
     stock_price: dict
 
@@ -29,6 +47,10 @@ class FinanceState(
     risk_analysis: dict
 
     investment_summary: dict
+
+    # ======================
+    # FINAL OUTPUT
+    # ======================
 
     recommendation: dict
 

@@ -39,82 +39,76 @@ def skill_executor(
     ticker = state["ticker"]
 
     print(
-        f"\nRunning Skill -> {skill}"
+        f"\n===== EXECUTING ====="
     )
 
-    # ==========================
+    print(
+        f"\nSkill: {skill}"
+    )
+
+    # =====================
     # STOCK PRICE
-    # ==========================
+    # =====================
 
     if skill == "stock_price_skill":
 
-        if "stock_price" not in state:
-
-            state["stock_price"] = (
-                stock_price_skill(
-                    ticker
-                )
+        state["stock_price"] = (
+            stock_price_skill(
+                ticker
             )
+        )
 
-    # ==========================
+    # =====================
     # MARKET METRICS
-    # ==========================
+    # =====================
 
     elif skill == "market_metrics_skill":
 
-        if "market_metrics" not in state:
-
-            state["market_metrics"] = (
-                market_metrics_skill(
-                    ticker
-                )
+        state["market_metrics"] = (
+            market_metrics_skill(
+                ticker
             )
+        )
 
-    # ==========================
+    # =====================
     # FINANCIAL HEALTH
-    # ==========================
+    # =====================
 
     elif skill == "financial_health_skill":
 
-        if "financial_health" not in state:
-
-            state["financial_health"] = (
-                financial_health_skill(
-                    ticker
-                )
+        state["financial_health"] = (
+            financial_health_skill(
+                ticker
             )
+        )
 
-    # ==========================
+    # =====================
     # TECHNICAL ANALYSIS
-    # ==========================
+    # =====================
 
     elif skill == "technical_analysis_skill":
 
-        if "technical_analysis" not in state:
-
-            state["technical_analysis"] = (
-                technical_analysis_skill(
-                    ticker
-                )
+        state["technical_analysis"] = (
+            technical_analysis_skill(
+                ticker
             )
+        )
 
-    # ==========================
+    # =====================
     # NEWS FETCH
-    # ==========================
+    # =====================
 
     elif skill == "news_fetch_skill":
 
-        if "news" not in state:
-
-            state["news"] = (
-                news_fetch_skill(
-                    ticker
-                )
+        state["news"] = (
+            news_fetch_skill(
+                ticker
             )
+        )
 
-    # ==========================
+    # =====================
     # NEWS SENTIMENT
-    # ==========================
+    # =====================
 
     elif skill == "news_sentiment_skill":
 
@@ -126,31 +120,27 @@ def skill_executor(
                 )
             )
 
-        if "news_sentiment" not in state:
-
-            state["news_sentiment"] = (
-                news_sentiment_skill(
-                    state["news"]
-                )
+        state["news_sentiment"] = (
+            news_sentiment_skill(
+                state["news"]
             )
+        )
 
-    # ==========================
+    # =====================
     # RISK ANALYSIS
-    # ==========================
+    # =====================
 
     elif skill == "risk_analysis_skill":
 
-        if "risk_analysis" not in state:
-
-            state["risk_analysis"] = (
-                risk_analysis_skill(
-                    ticker
-                )
+        state["risk_analysis"] = (
+            risk_analysis_skill(
+                ticker
             )
+        )
 
-    # ==========================
+    # =====================
     # INVESTMENT SUMMARY
-    # ==========================
+    # =====================
 
     elif skill == "investment_summary_skill":
 
@@ -160,9 +150,9 @@ def skill_executor(
             )
         )
 
-    # ==========================
-    # TRACK EXECUTED SKILLS
-    # ==========================
+    # =====================
+    # TRACK EXECUTION
+    # =====================
 
     if "executed_skills" not in state:
 
@@ -173,5 +163,13 @@ def skill_executor(
         state["executed_skills"].append(
             skill
         )
+
+    print(
+        "\nExecuted Skills:"
+    )
+
+    print(
+        state["executed_skills"]
+    )
 
     return state

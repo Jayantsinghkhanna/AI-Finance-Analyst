@@ -11,72 +11,118 @@ def report_agent(state):
 
     state["report_date"] = today
 
-    recommendation = state.get(
-        "recommendation",
-        {}
-    )
+    intent = state["intent"]
 
-    stock_price = state.get(
-        "stock_price",
-        {}
-    )
+    # ==========================
+    # PRICE LOOKUP
+    # ==========================
 
-    market_metrics = state.get(
-        "market_metrics",
-        {}
-    )
+    if intent == "price_lookup":
 
-    financial_health = state.get(
-        "financial_health",
-        {}
-    )
+        stock = state.get(
+            "stock_price",
+            {}
+        )
 
-    technical_analysis = state.get(
-        "technical_analysis",
-        {}
-    )
+        report = f"""
+{stock.get('ticker')} Stock Snapshot
 
-    news_sentiment = state.get(
-        "news_sentiment",
-        {}
-    )
+Date: {today}
 
-    risk_analysis = state.get(
-        "risk_analysis",
-        {}
-    )
+Ticker: {stock.get('ticker')}
+
+Current Price:
+${stock.get('price')}
+
+Previous Close:
+${stock.get('previous_close')}
+
+This report was generated from live market data.
+"""
+
+        state["final_report"] = (
+            report
+        )
+
+        return state
+
+    # ==========================
+    # NEWS LOOKUP
+    # ==========================
+
+    if intent == "news_lookup":
+
+        news = state.get(
+            "news",
+            []
+        )
+
+        sentiment = state.get(
+            "news_sentiment",
+            {}
+        )
+
+        report = f"""
+News Analysis Report
+
+Date: {today}
+
+Overall Sentiment:
+{sentiment.get('sentiment', 'Unknown')}
+
+News Headlines:
+
+"""
+
+        for item in news[:5]:
+
+            report += (
+                f"\n• {item}"
+            )
+
+        state["final_report"] = (
+            report
+        )
+
+        return state
+
+    # ==========================
+    # FULL ANALYSIS
+    # ==========================
 
     prompt = f"""
-Generate a professional equity research report.
+You are a professional equity research analyst.
+
+Generate a detailed investment report.
 
 Date:
 {today}
 
-Ticker:
-{state.get('ticker')}
-
-Recommendation:
-{recommendation}
+User Query:
+{state.get('query')}
 
 Stock Price:
-{stock_price}
+{state.get('stock_price')}
 
 Market Metrics:
-{market_metrics}
+{state.get('market_metrics')}
 
 Financial Health:
-{financial_health}
+{state.get('financial_health')}
 
 Technical Analysis:
-{technical_analysis}
+{state.get('technical_analysis')}
 
 News Sentiment:
-{news_sentiment}
+{state.get('news_sentiment')}
 
 Risk Analysis:
-{risk_analysis}
+{state.get('risk_analysis')}
 
-Create a report with EXACTLY these sections:
+Recommendation:
+{state.get('recommendation')}
+
+Create these sections:
 
 1. Executive Summary
 
@@ -98,17 +144,19 @@ Create a report with EXACTLY these sections:
 
 10. Key Risks
 
-Use professional investment analyst language.
+Use professional analyst language.
+
 Do not invent data.
-Use only supplied information.
 """
 
-    response = llm.invoke(
-        prompt
+    response = (
+        llm.invoke(
+            prompt
+        )
     )
 
     state["final_report"] = (
         response.content
     )
 
-    return state    
+    return state

@@ -1,7 +1,9 @@
 from pydantic import BaseModel
 
 
-class RouterOutput(BaseModel):
+class RouterOutput(
+    BaseModel
+):
 
     intent: str
 

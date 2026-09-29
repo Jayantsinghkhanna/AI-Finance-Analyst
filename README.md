@@ -33,7 +33,7 @@ The system follows:
 The important part is that the analysis loop is **dynamic**. The system does not have to execute every skill in a fixed order. The Reflection Agent examines the current state and decides what information is still required.
 
 ### 🔄 End-to-End Workflow
-![workflow](workflow.png)
+(workflow.png)
 
 ### 🧩 Workflow at a glance
 

@@ -33,44 +33,7 @@ The system follows:
 The important part is that the analysis loop is **dynamic**. The system does not have to execute every skill in a fixed order. The Reflection Agent examines the current state and decides what information is still required.
 
 ### 🔄 End-to-End Workflow
-
-```mermaid
-flowchart LR
-    U["👤 User Input<br/>Natural-language query"] --> R["🧭 Router Agent<br/>Gemini + Pydantic"]
-    R --> RS["Structured Request<br/>Intent + Ticker"]
-    RS --> S["🧠 Finance Supervisor<br/>Autonomous Analysis"]
-    S --> Ref["🔍 Reflection Agent<br/>Evaluate current state"]
-    Ref --> D{"Enough information?"}
-
-    D -- "No" --> Sel["🎯 Select Next Skill"]
-    Sel --> Ex["⚙️ Skill Executor"]
-    Ex --> State["🗃️ Shared FinanceState<br/>Store analysis results"]
-    State --> Ref
-
-    D -- "Yes" --> Rep["📝 Report Agent<br/>Generate analyst-style report"]
-    Rep --> PDF["📄 PDF Generator<br/>ReportLab"]
-    PDF --> Out["📦 Final Output<br/>Investment Report PDF"]
-
-    subgraph Skills["🧩 Financial Analysis Skills — Executed Dynamically"]
-        SP["📈 Stock Price"]
-        MM["📊 Market Metrics"]
-        FH["💰 Financial Health"]
-        TA["📉 Technical Analysis"]
-        NF["📰 News Fetch"]
-        NS["💬 News Sentiment"]
-        RA["⚠️ Risk Analysis"]
-    end
-
-    Ex -. "executes selected skill" .-> Skills
-
-    subgraph Sources["🌐 External Data Sources"]
-        YF["yFinance<br/>Market + Financial Data"]
-        News["News APIs<br/>Recent News + Articles"]
-        Other["Other Financial Sources"]
-    end
-
-    Skills -. "retrieve data" .-> Sources
-```
+![workflow](workflow.jpeg)
 
 ### 🧩 Workflow at a glance
 
